@@ -1,0 +1,207 @@
+#include <aduc834.h>
+#include <lcd_comm.h>
+#include <intx_t.h>
+#include <lab2_board.h>
+
+/* a millisecond system timer */
+volatile long int system_timer;
+
+void IsrTimer2 (void) interrupt 5
+{
+	system_timer++;
+	TF2 = 0;
+}
+
+void Timer2Init (void)
+{
+/********************************************
+TODO:
+		skonfiguruj licznik Timer 2 do odmierzania 1 ms,
+		w trybie z automatycznym przeladowaniem wartosci poczatkowej
+*********************************************/
+	T2CON = (1<<2);
+	
+	RCAP2H = 0xFF;
+	RCAP2L = 0x7C;
+	TH2 = 0xFF;
+	TL2 = 0x7C;
+}
+
+void InterruptsInit (void)
+{
+/********************************************
+TODO:
+		skonfiguruj system przerwan – konieczne dla
+		dzialania zegara systemowego
+*********************************************/
+	ET2 = 1;
+	EA = 1;
+}
+
+void LCD_DelayMs (uint16_t ms_cnt)
+{
+	long int t0 = system_timer;
+	
+	while (system_timer < t0 + ms_cnt){
+	}
+}
+
+void StateInitialize(void);
+void StateIdle(void);
+void StateSetTimeout(void);
+void StateCountdown(void);
+
+/* an array of pointers to state functions */
+void (*state_array[])() = {StateInitialize, StateIdle,
+StateSetTimeout, StateCountdown};
+
+/* a definition of an enumerated type
+	used for indexing the state_array */
+typedef enum {ST_INITIALIZE, ST_IDLE, ST_SET_TIMEOUT, ST_COUNTDOWN}
+state_name_t;
+
+/* a variable specifying the current state */
+state_name_t current_state;
+
+/* timeout for the countdown value in milliseconds */
+static long int timeout_set;
+
+void StateInitialize (void)
+{
+		/* set the LCD backlight to violet */
+		PORT_LCD_LED &= ~((1 << LCD_RED) | (1 << LCD_BLUE));
+		Timer2Init();
+		InterruptsInit();
+		LCD_Init();
+	
+/********************************************
+TODO:
+1. wywolaj inicjalizacje przetwornika ADC
+2. wyswietl informacje o trwajacej inicjalizacji
+3. odczekaj 3 sekundy
+*********************************************/
+	
+	//2. wyswietl informacje o trwajacej inicjalizacji
+	LCD_SendString ("Ola Zuza");
+	
+	//3. odczekaj 3 sekundy
+	LCD_DelayMs (3000);
+	LCD_Byte (0, LCD_CLEAR);
+	LCD_Byte (0, LCD_LINE_FOUR);	
+	LCD_SendString ("Udalo sie");
+	LCD_DelayMs (3000);
+	LCD_Byte (0, LCD_CLEAR);
+	
+		/* transition to the next state occurs after calling
+			its function for the first time */
+		StateIdle();
+}
+
+void StateIdle (void)
+{
+		/* check for entry */
+		if (current_state != ST_IDLE)
+		{
+				current_state = ST_IDLE;
+			
+/********************************************
+TODO:
+1. wyswietl menu
+2. ustaw kolor podswietlenia LCD na zielony
+*********************************************/
+			
+	//1. wyswietl menu
+		LCD_Byte (0, LCD_LINE_ONE);
+		LCD_SendString ("A-odliczanie");
+		LCD_Byte (0, LCD_LINE_TWO);
+		LCD_SendString ("B-nastawa");
+		LCD_Byte (0, LCD_LINE_THREE);
+		LCD_SendString ("C-bierny");
+			
+	//2. ustaw kolor podswietlenia LCD na zielony
+		LCD_DelayMs (2000);
+		PORT_LCD_LED |= ((1 << LCD_RED));
+		PORT_LCD_LED |= ((1 << LCD_BLUE));
+		PORT_LCD_LED &= ~((1 << LCD_GREEN));
+			
+				return;
+		}
+		
+		if (BUTTON1_CHK)
+		{
+				StateSetTimeout();
+			
+		} else if (BUTTON2_CHK)
+		{
+				StateCountdown();
+		}
+}
+
+void StateCountdown (void)
+{
+		static long int time_start, time_1s_ref;
+	
+		/* check for entry */
+		if (current_state != ST_COUNTDOWN)
+		{
+				current_state = ST_COUNTDOWN;
+			
+				/* store the value of the system timer
+					from which the countdown begins */
+				time_start = system_timer;
+				/* a reference for 1-sec timeouts */
+				time_1s_ref = time_start;
+			
+				return;
+		}
+		
+/********************************************
+TODO:
+1. warunkowo przechodz do stanu biernego
+po wcisnieciu przycisku C
+2. wyswietl informacje o mozliwosci powrotu do menu
+*********************************************/
+		
+		/* check if a 1-sec timeout expired
+			(used for 1 Hz display update) */
+		if (system_timer - time_1s_ref > 1000)
+		{
+				time_1s_ref += 1000;
+/********************************************
+TODO:
+		wyswietlaj pozostaly czas (co 1 sekunde)
+*********************************************/
+		}
+		
+		/* check if the timeout expired */
+		if (system_timer - time_start > timeout_set)
+		{
+				StateIdle();
+		}
+}
+
+void StateSetTimeout (void)
+{
+/********************************************
+TODO:
+Zaimplementuj stan zmiany nastawy czasu:
+1. na wejsciu ustaw biezacy stan na ST_SET_TIMEOUT
+2. zmieniaj wartosc zmiennej „timeout_set” w zakresie
+od 1000 do 20000 milisekund w oparciu o odczyty
+z kanalu przetwornika A/C podlaczonego do potencjometru
+3. jezeli uzytkownik wcisnie przycisk C,
+wykonaj przejscie do stanu biernego
+*********************************************/
+}
+
+int main (void)
+{
+	current_state = ST_INITIALIZE;
+	
+	while (1)
+	{
+		/* current state function is executed from the
+			state function array */
+		state_array[current_state]();
+	}
+}

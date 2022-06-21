@@ -1,0 +1,48 @@
+#include <aduc834.h>
+
+char x;
+void wyslij(char x)
+{
+	SBUF = x;
+	while (TI == 0) {}
+	TI = 0;
+	return;
+}
+
+char odbior ()
+{
+	char x;
+	while (RI == 0){}
+	x = SBUF;
+	RI = 0;
+	return x;
+}
+
+void isr_timer1 () interrupt 3
+{
+	TH1 = 0x00;
+	TL1 = 0x00;
+	if(RI == 1){
+		x = odbior();
+	}
+	wyslij(x);
+}
+
+int main(void)
+{
+	x = '?';
+	SCON = 0x50;
+	T3CON = 0x82;
+	T3FD = 0x12;
+	TR1 = 1;
+	TMOD = 0x10;
+	ET1 = 1;
+	EA = 1;
+	P2&= ~(1<<4);
+	P0 = 0;
+	P1&= ~(1<<0);
+	while(1) {
+		P2^= (1<<4);
+	}
+}
+

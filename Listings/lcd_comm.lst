@@ -1,0 +1,245 @@
+C51 COMPILER V9.57.0.0   LCD_COMM                                                          05/11/2022 10:01:33 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE LCD_COMM
+OBJECT MODULE PLACED IN .\Objects\lcd_comm.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE lcd_comm.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\List
+                    -ings\lcd_comm.lst) TABS(2) OBJECT(.\Objects\lcd_comm.obj)
+
+line level    source
+
+   1          #include <aduc834.h>
+   2          #include <lab2_board.h>
+   3          #include <lcd_comm.h>
+   4          
+   5          void LCD_Init (void)
+   6          {
+   7   1        LCD_DelayMs(50);
+   8   1        PORT_LCD_CTRL &= ~(1<<LCD_RS);
+   9   1        PORT_LCD_D &= 0x0F;
+  10   1        PORT_LCD_D |= 0x03 << 4;
+  11   1        _SET_E();
+  12   1        _CLR_E();
+  13   1        LCD_DelayMs(10);
+  14   1        _SET_E();
+  15   1        _CLR_E();
+  16   1        LCD_DelayMs(1);
+  17   1        _SET_E();
+  18   1        _CLR_E();
+  19   1        LCD_DelayMs(1);
+  20   1      
+  21   1        /* 4b interface */
+  22   1        PORT_LCD_D &= 0x0F;
+  23   1        PORT_LCD_D |= 0x02 << 4;  
+  24   1        _SET_E();
+  25   1        _CLR_E();
+  26   1        LCD_DelayMs(1);
+  27   1      
+  28   1        LCD_Byte (0,0x28);
+  29   1        LCD_Byte (0,0x08);
+  30   1        LCD_Byte (0,LCD_CLEAR);
+  31   1        LCD_Byte (0,0x06);
+  32   1        LCD_Byte (0,0x0C);
+  33   1      } 
+  34          
+  35          void LCD_Byte (uint8_t ch, uint8_t byte)
+  36          {
+  37   1        if (ch==1)
+  38   1          PORT_LCD_CTRL |= (1<<LCD_RS);
+  39   1        else
+  40   1          PORT_LCD_CTRL &= ~(1<<LCD_RS);
+  41   1        
+  42   1        _SET_E();
+  43   1        PORT_LCD_D &= 0x0F;
+  44   1        PORT_LCD_D |= byte & 0xF0;
+  45   1        _CLR_E();
+  46   1        
+  47   1        _SET_E();
+  48   1        PORT_LCD_D &= 0x0F;
+  49   1        PORT_LCD_D |= byte << 4;
+  50   1        _CLR_E();
+  51   1        LCD_DelayMs(2);
+  52   1      }
+  53          
+  54          void LCD_SendString (uint8_t *str)
+C51 COMPILER V9.57.0.0   LCD_COMM                                                          05/11/2022 10:01:33 PAGE 2   
+
+  55          {
+  56   1        while(*str != 0)
+  57   1        {
+  58   2          _LCD_CHAR(*str);
+  59   2          str++;
+  60   2        }
+  61   1      }
+C51 COMPILER V9.57.0.0   LCD_COMM                                                          05/11/2022 10:01:33 PAGE 3   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION LCD_Init (BEGIN)
+                                           ; SOURCE LINE # 5
+                                           ; SOURCE LINE # 6
+                                           ; SOURCE LINE # 7
+0000 7F32              MOV     R7,#032H
+0002 7E00              MOV     R6,#00H
+0004 120000      E     LCALL   _LCD_DelayMs
+                                           ; SOURCE LINE # 8
+0007 53B0BF            ANL     P3,#0BFH
+                                           ; SOURCE LINE # 9
+000A 53A00F            ANL     P2,#0FH
+                                           ; SOURCE LINE # 10
+000D 43A030            ORL     P2,#030H
+                                           ; SOURCE LINE # 11
+0010 43B080            ORL     P3,#080H
+                                           ; SOURCE LINE # 12
+0013 53B07F            ANL     P3,#07FH
+                                           ; SOURCE LINE # 13
+0016 7F0A              MOV     R7,#0AH
+0018 7E00              MOV     R6,#00H
+001A 120000      E     LCALL   _LCD_DelayMs
+                                           ; SOURCE LINE # 14
+001D 43B080            ORL     P3,#080H
+                                           ; SOURCE LINE # 15
+0020 53B07F            ANL     P3,#07FH
+                                           ; SOURCE LINE # 16
+0023 7F01              MOV     R7,#01H
+0025 7E00              MOV     R6,#00H
+0027 120000      E     LCALL   _LCD_DelayMs
+                                           ; SOURCE LINE # 17
+002A 43B080            ORL     P3,#080H
+                                           ; SOURCE LINE # 18
+002D 53B07F            ANL     P3,#07FH
+                                           ; SOURCE LINE # 19
+0030 7F01              MOV     R7,#01H
+0032 7E00              MOV     R6,#00H
+0034 120000      E     LCALL   _LCD_DelayMs
+                                           ; SOURCE LINE # 22
+0037 53A00F            ANL     P2,#0FH
+                                           ; SOURCE LINE # 23
+003A 43A020            ORL     P2,#020H
+                                           ; SOURCE LINE # 24
+003D 43B080            ORL     P3,#080H
+                                           ; SOURCE LINE # 25
+0040 53B07F            ANL     P3,#07FH
+                                           ; SOURCE LINE # 26
+0043 7F01              MOV     R7,#01H
+0045 7E00              MOV     R6,#00H
+0047 120000      E     LCALL   _LCD_DelayMs
+                                           ; SOURCE LINE # 28
+004A 7D28              MOV     R5,#028H
+004C E4                CLR     A
+004D FF                MOV     R7,A
+004E 120000      R     LCALL   _LCD_Byte
+                                           ; SOURCE LINE # 29
+0051 7D08              MOV     R5,#08H
+0053 E4                CLR     A
+0054 FF                MOV     R7,A
+0055 120000      R     LCALL   _LCD_Byte
+C51 COMPILER V9.57.0.0   LCD_COMM                                                          05/11/2022 10:01:33 PAGE 4   
+
+                                           ; SOURCE LINE # 30
+0058 7D01              MOV     R5,#01H
+005A E4                CLR     A
+005B FF                MOV     R7,A
+005C 120000      R     LCALL   _LCD_Byte
+                                           ; SOURCE LINE # 31
+005F 7D06              MOV     R5,#06H
+0061 E4                CLR     A
+0062 FF                MOV     R7,A
+0063 120000      R     LCALL   _LCD_Byte
+                                           ; SOURCE LINE # 32
+0066 7D0C              MOV     R5,#0CH
+0068 E4                CLR     A
+0069 FF                MOV     R7,A
+006A 020000      R     LJMP    _LCD_Byte
+             ; FUNCTION LCD_Init (END)
+
+             ; FUNCTION _LCD_Byte (BEGIN)
+                                           ; SOURCE LINE # 35
+;---- Variable 'byte' assigned to Register 'R5' ----
+;---- Variable 'ch' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 36
+                                           ; SOURCE LINE # 37
+0000 BF0105            CJNE    R7,#01H,?C0002
+                                           ; SOURCE LINE # 38
+0003 43B040            ORL     P3,#040H
+0006 8003              SJMP    ?C0003
+0008         ?C0002:
+                                           ; SOURCE LINE # 40
+0008 53B0BF            ANL     P3,#0BFH
+000B         ?C0003:
+                                           ; SOURCE LINE # 42
+000B 43B080            ORL     P3,#080H
+                                           ; SOURCE LINE # 43
+000E 53A00F            ANL     P2,#0FH
+                                           ; SOURCE LINE # 44
+0011 ED                MOV     A,R5
+0012 54F0              ANL     A,#0F0H
+0014 42A0              ORL     P2,A
+                                           ; SOURCE LINE # 45
+0016 53B07F            ANL     P3,#07FH
+                                           ; SOURCE LINE # 47
+0019 43B080            ORL     P3,#080H
+                                           ; SOURCE LINE # 48
+001C 53A00F            ANL     P2,#0FH
+                                           ; SOURCE LINE # 49
+001F ED                MOV     A,R5
+0020 C4                SWAP    A
+0021 54F0              ANL     A,#0F0H
+0023 42A0              ORL     P2,A
+                                           ; SOURCE LINE # 50
+0025 53B07F            ANL     P3,#07FH
+                                           ; SOURCE LINE # 51
+0028 7F02              MOV     R7,#02H
+002A 7E00              MOV     R6,#00H
+002C 020000      E     LJMP    _LCD_DelayMs
+             ; FUNCTION _LCD_Byte (END)
+
+             ; FUNCTION _LCD_SendString (BEGIN)
+                                           ; SOURCE LINE # 54
+0000 8B00        R     MOV     str,R3
+0002 8A00        R     MOV     str+01H,R2
+C51 COMPILER V9.57.0.0   LCD_COMM                                                          05/11/2022 10:01:33 PAGE 5   
+
+0004 8900        R     MOV     str+02H,R1
+                                           ; SOURCE LINE # 55
+0006         ?C0005:
+                                           ; SOURCE LINE # 56
+0006 AB00        R     MOV     R3,str
+0008 AA00        R     MOV     R2,str+01H
+000A A900        R     MOV     R1,str+02H
+000C 120000      E     LCALL   ?C?CLDPTR
+000F FD                MOV     R5,A
+0010 6012              JZ      ?C0007
+                                           ; SOURCE LINE # 57
+                                           ; SOURCE LINE # 58
+0012 7F01              MOV     R7,#01H
+0014 120000      R     LCALL   _LCD_Byte
+                                           ; SOURCE LINE # 59
+0017 7401              MOV     A,#01H
+0019 2500        R     ADD     A,str+02H
+001B F500        R     MOV     str+02H,A
+001D E4                CLR     A
+001E 3500        R     ADDC    A,str+01H
+0020 F500        R     MOV     str+01H,A
+                                           ; SOURCE LINE # 60
+0022 80E2              SJMP    ?C0005
+                                           ; SOURCE LINE # 61
+0024         ?C0007:
+0024 22                RET     
+             ; FUNCTION _LCD_SendString (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    193    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

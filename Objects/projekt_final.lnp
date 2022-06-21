@@ -1,0 +1,3 @@
+".\Objects\main.obj" 
+TO ".\Objects\projekt_final" 
+PRINT(".\Listings\projekt_final.m51") RAMSIZE(256) 
