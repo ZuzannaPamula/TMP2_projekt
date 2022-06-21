@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              06/21/2022 23:46:21 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 00:18:45 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -18,40 +18,49 @@ line level    source
    8          unsigned int c = 300;
    9          unsigned int L = 0;
   10          unsigned int X = 0;
-  11          
-  12          int main ()
-  13          {   
-  14   1        TCON = (1<<4)|(1<<0);
-  15   1        TMOD = (1<<0);
-  16   1        while(1){
-  17   2          TF0 = 0;
-  18   2          X = a * 131;
-  19   2          L = 65536 - 1 - X;
-  20   2          TL0 = L%256;
-  21   2          TH0 = L/256;
-  22   2          while(TF0 == 0){
-  23   3            };
-  24   2          TF0 = 0;
-  25   2          P2&= ~(1<<0);
-  26   2          }
-  27   1      }
-C51 COMPILER V9.60.0.0   MAIN                                                              06/21/2022 23:46:21 PAGE 2   
+  11          char nr_portu = 0;
+  12          
+  13          int main ()
+  14          {   
+  15   1        TCON = (1<<4)|(1<<0);
+  16   1        TMOD = (1<<0);
+  17   1        while(1){
+  18   2          TF0 = 0;
+  19   2          X = a * 131;
+  20   2          L = 65536 - 1 - X;
+  21   2          P2&= ~(1<<nr_portu);
+  22   2          TL0 = L%256;
+  23   2          TH0 = L/256;
+  24   2          while(TF0 == 0){
+  25   3            };
+  26   2          TF0 = 0;
+  27   2          P2|= (1<<nr_portu);
+  28   2          X = a * 131;
+  29   2          L = 65536 - 1 - X;
+  30   2          TL0 = L%256;
+  31   2          TH0 = L/256;
+  32   2          while(TF0 == 0){
+  33   3            };
+  34   2          TF0 = 0;  
+  35   2          }
+  36   1      }
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 00:18:45 PAGE 2   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
 
              ; FUNCTION main (BEGIN)
-                                           ; SOURCE LINE # 12
                                            ; SOURCE LINE # 13
                                            ; SOURCE LINE # 14
-0000 758811            MOV     TCON,#011H
                                            ; SOURCE LINE # 15
+0000 758811            MOV     TCON,#011H
+                                           ; SOURCE LINE # 16
 0003 758901            MOV     TMOD,#01H
 0006         ?C0001:
-                                           ; SOURCE LINE # 16
                                            ; SOURCE LINE # 17
-0006 C28D              CLR     TF0
                                            ; SOURCE LINE # 18
+0006 C28D              CLR     TF0
+                                           ; SOURCE LINE # 19
 0008 AE00        R     MOV     R6,a
 000A AF00        R     MOV     R7,a+01H
 000C 7C00              MOV     R4,#00H
@@ -59,7 +68,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0010 120000      E     LCALL   ?C?IMUL
 0013 8E00        R     MOV     X,R6
 0015 8F00        R     MOV     X+01H,R7
-                                           ; SOURCE LINE # 19
+                                           ; SOURCE LINE # 20
 0017 C3                CLR     C
 0018 74FF              MOV     A,#0FFH
 001A 9500        R     SUBB    A,X+01H
@@ -67,31 +76,83 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 001E 74FF              MOV     A,#0FFH
 0020 9500        R     SUBB    A,X
 0022 F500        R     MOV     L,A
-                                           ; SOURCE LINE # 20
-0024 85008A      R     MOV     TL0,L+01H
                                            ; SOURCE LINE # 21
-0027 E500        R     MOV     A,L
-0029 F58C              MOV     TH0,A
-002B         ?C0003:
+0024 AF00        R     MOV     R7,nr_portu
+0026 A807              MOV     R0,AR7
+0028 7401              MOV     A,#01H
+002A 08                INC     R0
+002B 8002              SJMP    ?C0009
+002D         ?C0008:
+002D C3                CLR     C
+002E 33                RLC     A
+002F         ?C0009:
+002F D8FC              DJNZ    R0,?C0008
+0031 F4                CPL     A
+0032 52A0              ANL     P2,A
                                            ; SOURCE LINE # 22
-002B 308DFD            JNB     TF0,?C0003
+0034 85008A      R     MOV     TL0,L+01H
                                            ; SOURCE LINE # 23
+0037 E500        R     MOV     A,L
+0039 F58C              MOV     TH0,A
+003B         ?C0003:
                                            ; SOURCE LINE # 24
-002E C28D              CLR     TF0
+003B 308DFD            JNB     TF0,?C0003
                                            ; SOURCE LINE # 25
-0030 53A0FE            ANL     P2,#0FEH
                                            ; SOURCE LINE # 26
-0033 80D1              SJMP    ?C0001
+003E C28D              CLR     TF0
+                                           ; SOURCE LINE # 27
+0040 AF00        R     MOV     R7,nr_portu
+0042 A807              MOV     R0,AR7
+0044 7401              MOV     A,#01H
+0046 08                INC     R0
+0047 8002              SJMP    ?C0011
+0049         ?C0010:
+0049 C3                CLR     C
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 00:18:45 PAGE 3   
+
+004A 33                RLC     A
+004B         ?C0011:
+004B D8FC              DJNZ    R0,?C0010
+004D 42A0              ORL     P2,A
+                                           ; SOURCE LINE # 28
+004F AE00        R     MOV     R6,a
+0051 AF00        R     MOV     R7,a+01H
+0053 7C00              MOV     R4,#00H
+0055 7D83              MOV     R5,#083H
+0057 120000      E     LCALL   ?C?IMUL
+005A 8E00        R     MOV     X,R6
+005C 8F00        R     MOV     X+01H,R7
+                                           ; SOURCE LINE # 29
+005E C3                CLR     C
+005F 74FF              MOV     A,#0FFH
+0061 9500        R     SUBB    A,X+01H
+0063 F500        R     MOV     L+01H,A
+0065 74FF              MOV     A,#0FFH
+0067 9500        R     SUBB    A,X
+0069 F500        R     MOV     L,A
+                                           ; SOURCE LINE # 30
+006B 85008A      R     MOV     TL0,L+01H
+                                           ; SOURCE LINE # 31
+006E E500        R     MOV     A,L
+0070 F58C              MOV     TH0,A
+0072         ?C0005:
+                                           ; SOURCE LINE # 32
+0072 308DFD            JNB     TF0,?C0005
+                                           ; SOURCE LINE # 33
+                                           ; SOURCE LINE # 34
+0075 C28D              CLR     TF0
+                                           ; SOURCE LINE # 35
+0077 808D              SJMP    ?C0001
              ; FUNCTION main (END)
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     53    ----
+   CODE SIZE        =    121    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     10    ----
+   DATA SIZE        =     11    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

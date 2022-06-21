@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/21/2022  23:46:22  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/22/2022  00:18:45  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -24,16 +24,16 @@ LINK MAP OF MODULE:  .\Objects\projekt_final (MAIN)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     000AH     UNIT         ?DT?MAIN
-            IDATA   0012H     0001H     UNIT         ?STACK
+            DATA    0008H     000BH     UNIT         ?DT?MAIN
+            IDATA   0013H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
                     0003H     07FDH                  *** GAP ***
             CODE    0800H     008CH     UNIT         ?C_C51STARTUP
-            CODE    088CH     0035H     UNIT         ?PR?MAIN?MAIN
-            CODE    08C1H     0015H     UNIT         ?C_INITSEG
-            CODE    08D6H     0012H     UNIT         ?C?LIB_CODE
+            CODE    088CH     0079H     UNIT         ?PR?MAIN?MAIN
+            CODE    0905H     0018H     UNIT         ?C_INITSEG
+            CODE    091DH     0012H     UNIT         ?C?LIB_CODE
 
 
 
@@ -56,12 +56,13 @@ SYMBOL TABLE OF MODULE:  .\Objects\projekt_final (MAIN)
 
   -------         MODULE        MAIN
   C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0008H         PUBLIC        nr_portu
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/22/2022  00:18:45  PAGE 2
+
+
   D:00B0H         PUBLIC        P3
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/21/2022  23:46:22  PAGE 2
-
-
   D:00D8H         PUBLIC        ADCSTAT
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
@@ -72,43 +73,54 @@ SYMBOL TABLE OF MODULE:  .\Objects\projekt_final (MAIN)
   D:0089H         PUBLIC        TMOD
   D:0088H         PUBLIC        TCON
   B:0088H.5       PUBLIC        TF0
-  D:0008H         PUBLIC        L
+  D:0009H         PUBLIC        L
   D:008CH         PUBLIC        TH0
   D:00F8H         PUBLIC        SPICON
   D:008AH         PUBLIC        TL0
-  D:000AH         PUBLIC        X
-  D:000CH         PUBLIC        a
-  D:000EH         PUBLIC        b
-  D:0010H         PUBLIC        c
+  D:000BH         PUBLIC        X
+  D:000DH         PUBLIC        a
+  D:000FH         PUBLIC        b
+  D:0011H         PUBLIC        c
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
   D:00C0H         PUBLIC        WDCON
   -------         PROC          MAIN
-  C:088CH         LINE#         12
   C:088CH         LINE#         13
   C:088CH         LINE#         14
-  C:088FH         LINE#         15
-  C:0892H         LINE#         16
+  C:088CH         LINE#         15
+  C:088FH         LINE#         16
   C:0892H         LINE#         17
-  C:0894H         LINE#         18
-  C:08A3H         LINE#         19
-  C:08B0H         LINE#         20
-  C:08B3H         LINE#         21
-  C:08B7H         LINE#         22
-  C:08BAH         LINE#         23
-  C:08BAH         LINE#         24
-  C:08BCH         LINE#         25
-  C:08BFH         LINE#         26
+  C:0892H         LINE#         18
+  C:0894H         LINE#         19
+  C:08A3H         LINE#         20
+  C:08B0H         LINE#         21
+  C:08C0H         LINE#         22
+  C:08C3H         LINE#         23
+  C:08C7H         LINE#         24
+  C:08CAH         LINE#         25
+  C:08CAH         LINE#         26
+  C:08CCH         LINE#         27
+  C:08DBH         LINE#         28
+  C:08EAH         LINE#         29
+  C:08F7H         LINE#         30
+  C:08FAH         LINE#         31
+  C:08FEH         LINE#         32
+  C:0901H         LINE#         33
+  C:0901H         LINE#         34
+  C:0903H         LINE#         35
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
   -------         MODULE        ?C?IMUL
-  C:08D6H         PUBLIC        ?C?IMUL
+  C:091DH         PUBLIC        ?C?IMUL
   -------         ENDMOD        ?C?IMUL
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0049H BYTE ( 3%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0090H BYTE ( 7%) *
 ******************************************************************************
 
-Program Size: data=19.0 xdata=0 code=235
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/22/2022  00:18:45  PAGE 3
+
+
+Program Size: data=20.0 xdata=0 code=306
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

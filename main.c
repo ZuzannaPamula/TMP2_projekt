@@ -8,6 +8,7 @@ unsigned int b = 200;
 unsigned int c = 300;
 unsigned int L = 0;
 unsigned int X = 0;
+char nr_portu = 0;
 
 int main ()
 {		
@@ -17,11 +18,19 @@ int main ()
 		TF0 = 0;
 		X = a * 131;
 		L = 65536 - 1 - X;
+		P2&= ~(1<<nr_portu);
 		TL0 = L%256;
 		TH0 = L/256;
 		while(TF0 == 0){
 			};
 		TF0 = 0;
-		P2&= ~(1<<0);
+		P2|= (1<<nr_portu);
+		X = a * 131;
+		L = 65536 - 1 - X;
+		TL0 = L%256;
+		TH0 = L/256;
+		while(TF0 == 0){
+			};
+		TF0 = 0;	
 		}
 }
