@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 20:33:10 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 20:57:16 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -13,155 +13,178 @@ line level    source
    3          #include <lab2_board.h>
    4          #include <stdio.h>
    5          
-   6          unsigned int a = 5;
-   7          unsigned int b = 10;
-   8          unsigned int c = 30;
-   9          unsigned int L = 0;
-  10          unsigned int X = 0;
-  11          unsigned int t_przerwy = 20;
-  12          char nr_portu = 0;
-  13          
-  14          
-  15          int main ()
-  16          {   
-  17   1        TCON = (1<<4)|(1<<0);
-  18   1        TMOD = (1<<0);
-  19   1        while(1){
-  20   2          TF0 = 0;
-  21   2          X = a * 131;
-  22   2          L = 65536 - 1 - X;
-  23   2          P2|= (1<<nr_portu);
-  24   2          TL0 = L%256;
-  25   2          TH0 = L/256;
-  26   2          while(TF0 == 0){
-  27   3            };
-  28   2          TF0 = 0;
-  29   2          P2&= ~(1<<nr_portu);
-  30   2        
-  31   2          TF0 = 0;
-  32   2          X = t_przerwy * 131;
-  33   2          L = 65536 - 1 - X;
-  34   2          TL0 = L%256;
-  35   2          TH0 = L/256;
-  36   2          while(TF0 == 0){
-  37   3            };
-  38   2          TF0 = 0;
-  39   2          }
+   6          
+   7          void ustawienie_licznika (unsigned int Y){
+   8   1        unsigned int X = 0, L = 0;
+   9   1        TF0 = 0;
+  10   1        X = Y * 131;
+  11   1        L = 65536 - 1 - X;
+  12   1        TL0 = L%256;
+  13   1        TH0 = L/256;
+  14   1        return;
+  15   1      }
+  16          
+  17          void funkcja_zmiany_stanu(unsigned int a, unsigned int b, unsigned int c){
+  18   1        unsigned int t_przerwy = 20;
+  19   1        char nr_portu = 0;
+  20   1        while(1){
+  21   2          ustawienie_licznika(a);
+  22   2          P2|= (1<<nr_portu);
+  23   2          while(TF0 == 0){
+  24   3            };
+  25   2          ustawienie_licznika(t_przerwy);
+  26   2          P2&= ~(1<<nr_portu);
+  27   2          while(TF0 == 0){
+  28   3            };
+  29   2          }
+  30   1        return;
+  31   1      }
+*** WARNING C280 IN LINE 17 OF main.c: 'b': unreferenced local variable
+*** WARNING C280 IN LINE 17 OF main.c: 'c': unreferenced local variable
+  32          
+  33          int main ()
+  34          { 
+  35   1        unsigned int a = 5, b = 10, c = 30;
+  36   1        TCON = (1<<4)|(1<<0);
+  37   1        TMOD = (1<<0);
+  38   1        funkcja_zmiany_stanu(a, b, c);
+  39   1        return 0; 
   40   1      }
-C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 20:33:10 PAGE 2   
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 20:57:16 PAGE 2   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
 
-             ; FUNCTION main (BEGIN)
+             ; FUNCTION _ustawienie_licznika (BEGIN)
+                                           ; SOURCE LINE # 7
+;---- Variable 'Y' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 8
+;---- Variable 'X' assigned to Register 'R4/R5' ----
+0000 E4                CLR     A
+0001 FC                MOV     R4,A
+;---- Variable 'L' assigned to Register 'R2/R3' ----
+                                           ; SOURCE LINE # 9
+0002 C28D              CLR     TF0
+                                           ; SOURCE LINE # 10
+0004 7D83              MOV     R5,#083H
+0006 120000      E     LCALL   ?C?IMUL
+                                           ; SOURCE LINE # 11
+0009 C3                CLR     C
+000A 74FF              MOV     A,#0FFH
+000C 9F                SUBB    A,R7
+000D FB                MOV     R3,A
+000E 74FF              MOV     A,#0FFH
+0010 9E                SUBB    A,R6
+                                           ; SOURCE LINE # 12
+0011 8B8A              MOV     TL0,R3
+                                           ; SOURCE LINE # 13
+0013 F58C              MOV     TH0,A
                                            ; SOURCE LINE # 15
-                                           ; SOURCE LINE # 16
-                                           ; SOURCE LINE # 17
-0000 758811            MOV     TCON,#011H
-                                           ; SOURCE LINE # 18
-0003 758901            MOV     TMOD,#01H
-0006         ?C0001:
-                                           ; SOURCE LINE # 19
-                                           ; SOURCE LINE # 20
-0006 C28D              CLR     TF0
-                                           ; SOURCE LINE # 21
-0008 AE00        R     MOV     R6,a
-000A AF00        R     MOV     R7,a+01H
-000C 7C00              MOV     R4,#00H
-000E 7D83              MOV     R5,#083H
-0010 120000      E     LCALL   ?C?IMUL
-0013 8E00        R     MOV     X,R6
-0015 8F00        R     MOV     X+01H,R7
-                                           ; SOURCE LINE # 22
-0017 C3                CLR     C
-0018 74FF              MOV     A,#0FFH
-001A 9500        R     SUBB    A,X+01H
-001C F500        R     MOV     L+01H,A
-001E 74FF              MOV     A,#0FFH
-0020 9500        R     SUBB    A,X
-0022 F500        R     MOV     L,A
-                                           ; SOURCE LINE # 23
-0024 AF00        R     MOV     R7,nr_portu
-0026 A807              MOV     R0,AR7
-0028 7401              MOV     A,#01H
-002A 08                INC     R0
-002B 8002              SJMP    ?C0009
-002D         ?C0008:
-002D C3                CLR     C
-002E 33                RLC     A
-002F         ?C0009:
-002F D8FC              DJNZ    R0,?C0008
-0031 42A0              ORL     P2,A
-                                           ; SOURCE LINE # 24
-0033 85008A      R     MOV     TL0,L+01H
-                                           ; SOURCE LINE # 25
-0036 E500        R     MOV     A,L
-0038 F58C              MOV     TH0,A
-003A         ?C0003:
-                                           ; SOURCE LINE # 26
-003A 308DFD            JNB     TF0,?C0003
-                                           ; SOURCE LINE # 27
-                                           ; SOURCE LINE # 28
-003D C28D              CLR     TF0
-                                           ; SOURCE LINE # 29
-003F AF00        R     MOV     R7,nr_portu
-0041 A807              MOV     R0,AR7
-0043 7401              MOV     A,#01H
-0045 08                INC     R0
-0046 8002              SJMP    ?C0011
-0048         ?C0010:
-0048 C3                CLR     C
-0049 33                RLC     A
-C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 20:33:10 PAGE 3   
+0015 22                RET     
+             ; FUNCTION _ustawienie_licznika (END)
 
-004A         ?C0011:
-004A D8FC              DJNZ    R0,?C0010
-004C F4                CPL     A
-004D 52A0              ANL     P2,A
-                                           ; SOURCE LINE # 31
-004F C28D              CLR     TF0
-                                           ; SOURCE LINE # 32
-0051 AE00        R     MOV     R6,t_przerwy
-0053 AF00        R     MOV     R7,t_przerwy+01H
-0055 7C00              MOV     R4,#00H
-0057 7D83              MOV     R5,#083H
-0059 120000      E     LCALL   ?C?IMUL
-005C 8E00        R     MOV     X,R6
-005E 8F00        R     MOV     X+01H,R7
+             ; FUNCTION _funkcja_zmiany_stanu (BEGIN)
+                                           ; SOURCE LINE # 17
+0000 8C00        R     MOV     b,R4
+0002 8D00        R     MOV     b+01H,R5
+0004 8A00        R     MOV     c,R2
+0006 8B00        R     MOV     c+01H,R3
+;---- Variable 'a' assigned to Register 'DPTR' ----
+0008 8F82              MOV     DPL,R7
+000A 8E83              MOV     DPH,R6
+                                           ; SOURCE LINE # 18
+000C 750000      R     MOV     t_przerwy,#00H
+000F 750014      R     MOV     t_przerwy+01H,#014H
+                                           ; SOURCE LINE # 19
+;---- Variable 'nr_portu' assigned to Register 'R1' ----
+0012 E4                CLR     A
+0013 F9                MOV     R1,A
+0014         ?C0002:
+                                           ; SOURCE LINE # 20
+                                           ; SOURCE LINE # 21
+0014 AF82              MOV     R7,DPL
+0016 AE83              MOV     R6,DPH
+0018 120000      R     LCALL   _ustawienie_licznika
+                                           ; SOURCE LINE # 22
+001B A801              MOV     R0,AR1
+001D 7401              MOV     A,#01H
+001F 08                INC     R0
+0020 8002              SJMP    ?C0011
+0022         ?C0010:
+0022 C3                CLR     C
+0023 33                RLC     A
+0024         ?C0011:
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 20:57:16 PAGE 3   
+
+0024 D8FC              DJNZ    R0,?C0010
+0026 42A0              ORL     P2,A
+0028         ?C0004:
+                                           ; SOURCE LINE # 23
+0028 308DFD            JNB     TF0,?C0004
+                                           ; SOURCE LINE # 24
+                                           ; SOURCE LINE # 25
+002B AF00        R     MOV     R7,t_przerwy+01H
+002D AE00        R     MOV     R6,t_przerwy
+002F 120000      R     LCALL   _ustawienie_licznika
+                                           ; SOURCE LINE # 26
+0032 A801              MOV     R0,AR1
+0034 7401              MOV     A,#01H
+0036 08                INC     R0
+0037 8002              SJMP    ?C0013
+0039         ?C0012:
+0039 C3                CLR     C
+003A 33                RLC     A
+003B         ?C0013:
+003B D8FC              DJNZ    R0,?C0012
+003D F4                CPL     A
+003E 52A0              ANL     P2,A
+0040         ?C0006:
+                                           ; SOURCE LINE # 27
+0040 208DD1            JB      TF0,?C0002
+                                           ; SOURCE LINE # 28
+0043 80FB              SJMP    ?C0006
+             ; FUNCTION _funkcja_zmiany_stanu (END)
+
+             ; FUNCTION main (BEGIN)
                                            ; SOURCE LINE # 33
-0060 C3                CLR     C
-0061 74FF              MOV     A,#0FFH
-0063 9500        R     SUBB    A,X+01H
-0065 F500        R     MOV     L+01H,A
-0067 74FF              MOV     A,#0FFH
-0069 9500        R     SUBB    A,X
-006B F500        R     MOV     L,A
                                            ; SOURCE LINE # 34
-006D 85008A      R     MOV     TL0,L+01H
                                            ; SOURCE LINE # 35
-0070 E500        R     MOV     A,L
-0072 F58C              MOV     TH0,A
-0074         ?C0005:
+;---- Variable 'a' assigned to Register 'R6/R7' ----
+0000 7F05              MOV     R7,#05H
+0002 7E00              MOV     R6,#00H
+;---- Variable 'b' assigned to Register 'R4/R5' ----
+0004 7D0A              MOV     R5,#0AH
+0006 7C00              MOV     R4,#00H
+;---- Variable 'c' assigned to Register 'R2/R3' ----
+0008 7B1E              MOV     R3,#01EH
+000A 7A00              MOV     R2,#00H
                                            ; SOURCE LINE # 36
-0074 308DFD            JNB     TF0,?C0005
+000C 758811            MOV     TCON,#011H
                                            ; SOURCE LINE # 37
+000F 758901            MOV     TMOD,#01H
                                            ; SOURCE LINE # 38
-0077 C28D              CLR     TF0
+0012 120000      R     LCALL   _funkcja_zmiany_stanu
                                            ; SOURCE LINE # 39
-0079 808B              SJMP    ?C0001
+0015 E4                CLR     A
+0016 FE                MOV     R6,A
+0017 FF                MOV     R7,A
+                                           ; SOURCE LINE # 40
+0018 22                RET     
              ; FUNCTION main (END)
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    123    ----
+   CODE SIZE        =    116    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2022 20:57:16 PAGE 4   
+
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     13    ----
+   DATA SIZE        =   ----       6
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)
