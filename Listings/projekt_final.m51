@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/22/2022  00:18:45  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/22/2022  20:33:11  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -24,16 +24,16 @@ LINK MAP OF MODULE:  .\Objects\projekt_final (MAIN)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     000BH     UNIT         ?DT?MAIN
-            IDATA   0013H     0001H     UNIT         ?STACK
+            DATA    0008H     000DH     UNIT         ?DT?MAIN
+            IDATA   0015H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
                     0003H     07FDH                  *** GAP ***
             CODE    0800H     008CH     UNIT         ?C_C51STARTUP
-            CODE    088CH     0079H     UNIT         ?PR?MAIN?MAIN
-            CODE    0905H     0018H     UNIT         ?C_INITSEG
-            CODE    091DH     0012H     UNIT         ?C?LIB_CODE
+            CODE    088CH     007BH     UNIT         ?PR?MAIN?MAIN
+            CODE    0907H     001CH     UNIT         ?C_INITSEG
+            CODE    0923H     0012H     UNIT         ?C?LIB_CODE
 
 
 
@@ -59,7 +59,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\projekt_final (MAIN)
   D:0008H         PUBLIC        nr_portu
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/22/2022  00:18:45  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/22/2022  20:33:11  PAGE 2
 
 
   D:00B0H         PUBLIC        P3
@@ -83,44 +83,46 @@ SYMBOL TABLE OF MODULE:  .\Objects\projekt_final (MAIN)
   D:0011H         PUBLIC        c
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
+  D:0013H         PUBLIC        t_przerwy
   D:00C0H         PUBLIC        WDCON
   -------         PROC          MAIN
-  C:088CH         LINE#         13
-  C:088CH         LINE#         14
   C:088CH         LINE#         15
-  C:088FH         LINE#         16
-  C:0892H         LINE#         17
-  C:0892H         LINE#         18
-  C:0894H         LINE#         19
-  C:08A3H         LINE#         20
-  C:08B0H         LINE#         21
-  C:08C0H         LINE#         22
-  C:08C3H         LINE#         23
-  C:08C7H         LINE#         24
-  C:08CAH         LINE#         25
-  C:08CAH         LINE#         26
-  C:08CCH         LINE#         27
-  C:08DBH         LINE#         28
-  C:08EAH         LINE#         29
-  C:08F7H         LINE#         30
-  C:08FAH         LINE#         31
-  C:08FEH         LINE#         32
-  C:0901H         LINE#         33
-  C:0901H         LINE#         34
-  C:0903H         LINE#         35
+  C:088CH         LINE#         16
+  C:088CH         LINE#         17
+  C:088FH         LINE#         18
+  C:0892H         LINE#         19
+  C:0892H         LINE#         20
+  C:0894H         LINE#         21
+  C:08A3H         LINE#         22
+  C:08B0H         LINE#         23
+  C:08BFH         LINE#         24
+  C:08C2H         LINE#         25
+  C:08C6H         LINE#         26
+  C:08C9H         LINE#         27
+  C:08C9H         LINE#         28
+  C:08CBH         LINE#         29
+  C:08DBH         LINE#         31
+  C:08DDH         LINE#         32
+  C:08ECH         LINE#         33
+  C:08F9H         LINE#         34
+  C:08FCH         LINE#         35
+  C:0900H         LINE#         36
+  C:0903H         LINE#         37
+  C:0903H         LINE#         38
+  C:0905H         LINE#         39
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
   -------         MODULE        ?C?IMUL
-  C:091DH         PUBLIC        ?C?IMUL
+  C:0923H         PUBLIC        ?C?IMUL
   -------         ENDMOD        ?C?IMUL
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0090H BYTE ( 7%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0096H BYTE ( 7%) *
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/22/2022  20:33:11  PAGE 3
+
+
 ******************************************************************************
 
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/22/2022  00:18:45  PAGE 3
-
-
-Program Size: data=20.0 xdata=0 code=306
+Program Size: data=22.0 xdata=0 code=312
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
