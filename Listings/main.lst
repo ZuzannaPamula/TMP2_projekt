@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              06/23/2022 08:42:47 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              06/23/2022 19:39:10 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -35,27 +35,26 @@ line level    source
   25          
   26          void funkcja_zmiany_stanu(unsigned int a, unsigned int b, unsigned int c){
   27   1        unsigned int t_przerwy = 20;
-  28   1        char nr_portu = 0;
-  29   1        while(1){
-  30   2          ustawianie_i_zerowanie(0,a);
-  31   2          ustawianie_i_zerowanie(1,b);
-  32   2          ustawianie_i_zerowanie(2,c);
-  33   2          ustawienie_licznika(t_przerwy);
-  34   2          while(TF0 == 0){
-  35   3            };
-  36   2          }
-  37   1        return;
-  38   1      }
-  39          
-  40          int main ()
-  41          { 
-  42   1        unsigned int a = 5, b = 10, c = 30;
-  43   1        TCON = (1<<4)|(1<<0);
-  44   1        TMOD = (1<<0);
-  45   1        funkcja_zmiany_stanu(a, b, c);
-  46   1        return 0; 
-  47   1      }
-C51 COMPILER V9.60.0.0   MAIN                                                              06/23/2022 08:42:47 PAGE 2   
+  28   1        while(1){
+  29   2          ustawianie_i_zerowanie(0,a);
+  30   2          ustawianie_i_zerowanie(1,b);
+  31   2          ustawianie_i_zerowanie(2,c);
+  32   2          ustawienie_licznika(t_przerwy);
+  33   2          while(TF0 == 0){
+  34   3            };
+  35   2          }
+  36   1        return;
+  37   1      }
+  38          
+  39          int main ()
+  40          { 
+  41   1        unsigned int a = 5, b = 10, c = 30;
+  42   1        TCON = (1<<4)|(1<<0);
+  43   1        TMOD = (1<<0);
+  44   1        funkcja_zmiany_stanu(a, b, c);
+  45   1        return 0; 
+  46   1      }
+C51 COMPILER V9.60.0.0   MAIN                                                              06/23/2022 19:39:10 PAGE 2   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
@@ -119,7 +118,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 001F 08                INC     R0
 0020 8002              SJMP    ?C0014
 0022         ?C0013:
-C51 COMPILER V9.60.0.0   MAIN                                                              06/23/2022 08:42:47 PAGE 3   
+C51 COMPILER V9.60.0.0   MAIN                                                              06/23/2022 19:39:10 PAGE 3   
 
 0022 C3                CLR     C
 0023 33                RLC     A
@@ -143,75 +142,72 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
                                            ; SOURCE LINE # 27
 000C 750000      R     MOV     t_przerwy,#00H
 000F 750014      R     MOV     t_przerwy+01H,#014H
+0012         ?C0005:
                                            ; SOURCE LINE # 28
-0012 E4                CLR     A
-0013 F500        R     MOV     nr_portu,A
-0015         ?C0005:
                                            ; SOURCE LINE # 29
+0012 AD00        R     MOV     R5,a+01H
+0014 AC00        R     MOV     R4,a
+0016 E4                CLR     A
+0017 FF                MOV     R7,A
+0018 120000      R     LCALL   _ustawianie_i_zerowanie
                                            ; SOURCE LINE # 30
-0015 AD00        R     MOV     R5,a+01H
-0017 AC00        R     MOV     R4,a
-0019 E4                CLR     A
-001A FF                MOV     R7,A
-001B 120000      R     LCALL   _ustawianie_i_zerowanie
+001B AD00        R     MOV     R5,b+01H
+001D AC00        R     MOV     R4,b
+001F 7F01              MOV     R7,#01H
+0021 120000      R     LCALL   _ustawianie_i_zerowanie
                                            ; SOURCE LINE # 31
-001E AD00        R     MOV     R5,b+01H
-0020 AC00        R     MOV     R4,b
-0022 7F01              MOV     R7,#01H
-0024 120000      R     LCALL   _ustawianie_i_zerowanie
+0024 AD82              MOV     R5,DPL
+0026 AC83              MOV     R4,DPH
+0028 7F02              MOV     R7,#02H
+002A 120000      R     LCALL   _ustawianie_i_zerowanie
                                            ; SOURCE LINE # 32
-0027 AD82              MOV     R5,DPL
-0029 AC83              MOV     R4,DPH
-002B 7F02              MOV     R7,#02H
-002D 120000      R     LCALL   _ustawianie_i_zerowanie
+002D AF00        R     MOV     R7,t_przerwy+01H
+002F AE00        R     MOV     R6,t_przerwy
+0031 120000      R     LCALL   _ustawienie_licznika
+0034         ?C0007:
                                            ; SOURCE LINE # 33
-0030 AF00        R     MOV     R7,t_przerwy+01H
-0032 AE00        R     MOV     R6,t_przerwy
-0034 120000      R     LCALL   _ustawienie_licznika
-0037         ?C0007:
+0034 208DDB            JB      TF0,?C0005
                                            ; SOURCE LINE # 34
-0037 208DDB            JB      TF0,?C0005
-                                           ; SOURCE LINE # 35
-003A 80FB              SJMP    ?C0007
+0037 80FB              SJMP    ?C0007
              ; FUNCTION _funkcja_zmiany_stanu (END)
 
              ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 39
                                            ; SOURCE LINE # 40
                                            ; SOURCE LINE # 41
-                                           ; SOURCE LINE # 42
 ;---- Variable 'a' assigned to Register 'R6/R7' ----
 0000 7F05              MOV     R7,#05H
 0002 7E00              MOV     R6,#00H
 ;---- Variable 'b' assigned to Register 'R4/R5' ----
-C51 COMPILER V9.60.0.0   MAIN                                                              06/23/2022 08:42:47 PAGE 4   
-
 0004 7D0A              MOV     R5,#0AH
 0006 7C00              MOV     R4,#00H
 ;---- Variable 'c' assigned to Register 'R2/R3' ----
+C51 COMPILER V9.60.0.0   MAIN                                                              06/23/2022 19:39:10 PAGE 4   
+
 0008 7B1E              MOV     R3,#01EH
 000A 7A00              MOV     R2,#00H
-                                           ; SOURCE LINE # 43
+                                           ; SOURCE LINE # 42
 000C 758811            MOV     TCON,#011H
-                                           ; SOURCE LINE # 44
+                                           ; SOURCE LINE # 43
 000F 758901            MOV     TMOD,#01H
-                                           ; SOURCE LINE # 45
+                                           ; SOURCE LINE # 44
 0012 120000      R     LCALL   _funkcja_zmiany_stanu
-                                           ; SOURCE LINE # 46
+                                           ; SOURCE LINE # 45
 0015 E4                CLR     A
 0016 FE                MOV     R6,A
 0017 FF                MOV     R7,A
-                                           ; SOURCE LINE # 47
+                                           ; SOURCE LINE # 46
 0018 22                RET     
              ; FUNCTION main (END)
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    149    ----
+   CODE SIZE        =    146    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       7
+   DATA SIZE        =   ----       6
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
