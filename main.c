@@ -14,16 +14,23 @@ void ustawienie_licznika (unsigned int Y){
 	return;
 }
 
+void ustawianie_i_zerowanie (char nr_portu, unsigned int czas){
+	ustawienie_licznika(czas);
+	P2|= (1<<nr_portu);
+		while(TF0 == 0){
+			};
+	P2&= ~(1<<nr_portu);
+			return;
+}
+
 void funkcja_zmiany_stanu(unsigned int a, unsigned int b, unsigned int c){
 	unsigned int t_przerwy = 20;
 	char nr_portu = 0;
 	while(1){
-		ustawienie_licznika(a);
-		P2|= (1<<nr_portu);
-		while(TF0 == 0){
-			};
+		ustawianie_i_zerowanie(0,a);
+		ustawianie_i_zerowanie(1,b);
+		ustawianie_i_zerowanie(2,c);
 		ustawienie_licznika(t_przerwy);
-		P2&= ~(1<<nr_portu);
 		while(TF0 == 0){
 			};
 		}
